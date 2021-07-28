@@ -57,7 +57,7 @@ const useGoogleLogin = ({
       if (responseType === 'code') {
         const options = {
           prompt,
-          ...(uxMode === 'redirect' ? { redirect_uri: window.location.href } : {})
+          ...(uxMode === 'redirect' ? { redirect_uri: redirectUri || window.location.href } : {})
         }
         GoogleAuth.grantOfflineAccess(options).then(
           res => onSuccess(res),
