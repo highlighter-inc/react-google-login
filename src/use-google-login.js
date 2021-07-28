@@ -57,22 +57,20 @@ const useGoogleLogin = ({
       if (responseType === 'code') {
         const options = {
           prompt,
-          ...(uxMode === 'redirect'
-            ? { redirect_uri: window.location.href }
-            : {}),
-        };
+          ...(uxMode === 'redirect' ? { redirect_uri: window.location.href } : {})
+        }
         GoogleAuth.grantOfflineAccess(options).then(
-          (res) => onSuccess(res),
-          (err) => onFailure(err)
-        );
+          res => onSuccess(res),
+          err => onFailure(err)
+        )
       } else {
         const options = {
-          prompt,
-        };
+          prompt
+        }
         GoogleAuth.signIn(options).then(
-          (res) => handleSigninSuccess(res),
-          (err) => onFailure(err)
-        );
+          res => handleSigninSuccess(res),
+          err => onFailure(err)
+        )
       }
     }
   }
