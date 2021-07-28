@@ -53,20 +53,26 @@ const useGoogleLogin = ({
     }
     if (loaded) {
       const GoogleAuth = window.gapi.auth2.getAuthInstance()
-      const options = {
-        prompt
-      }
       onRequest()
       if (responseType === 'code') {
+        const options = {
+          prompt,
+          ...(uxMode === 'redirect'
+            ? { redirect_uri: window.location.href }
+            : {}),
+        };
         GoogleAuth.grantOfflineAccess(options).then(
-          res => onSuccess(res),
-          err => onFailure(err)
-        )
+          (res) => onSuccess(res),
+          (err) => onFailure(err)
+        );
       } else {
+        const options = {
+          prompt,
+        };
         GoogleAuth.signIn(options).then(
-          res => handleSigninSuccess(res),
-          err => onFailure(err)
-        )
+          (res) => handleSigninSuccess(res),
+          (err) => onFailure(err)
+        );
       }
     }
   }
