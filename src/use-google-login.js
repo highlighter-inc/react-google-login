@@ -57,6 +57,7 @@ const useGoogleLogin = ({
       if (responseType === 'code') {
         const options = {
           prompt,
+          login_hint: loginHint,
           ...(uxMode === 'redirect' ? { redirect_uri: redirectUri || window.location.href } : {})
         }
         GoogleAuth.grantOfflineAccess(options).then(
@@ -65,7 +66,8 @@ const useGoogleLogin = ({
         )
       } else {
         const options = {
-          prompt
+          prompt,
+          login_hint: loginHint
         }
         GoogleAuth.signIn(options).then(
           res => handleSigninSuccess(res),
